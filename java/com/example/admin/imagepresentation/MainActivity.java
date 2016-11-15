@@ -111,23 +111,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         boolean serviceIsEnabled = sharedPreferences.getBoolean("chbPref_service", false);
         if (serviceIsEnabled) {
-            Intent intent = new Intent("android.service.example.impresentservice");
-            intent.putExtra("serviceAutorun", sharedPreferences.getBoolean("chbPref_serviceAutoload", false));
-            intent.putExtra("programAutorun", sharedPreferences.getBoolean("chbPref_programAutoload", false));
-            intent.putExtra("programStartWhenChanging", sharedPreferences.getBoolean("chbPref_startWhenCharging", false));
-            startService(intent);
+            boolean serviceAutorun = sharedPreferences.getBoolean("chbPref_serviceAutorun", false);
+            boolean programAutorun = sharedPreferences.getBoolean("chbPref_programAutorun", false);
+            boolean programStartWhenChanging = sharedPreferences.getBoolean("chbPref_startWhenCharging", false);
+            if (serviceAutorun || programAutorun || programStartWhenChanging) {
+                Intent intent = new Intent("android.service.example.impresentservice");
+                intent.putExtra("serviceAutorun", serviceAutorun);
+                intent.putExtra("programAutorun", programAutorun);
+                intent.putExtra("programStartWhenChanging", programStartWhenChanging);
+                startService(intent);
+            } else {
+                Log.d("myTag", "все галочки отключены - активити");
+            }
         }
-
         super.onDestroy();
-    }
-
-    public Context getContext() {
-        return MainActivity.this;
     }
 
     private class ATask extends AsyncTask<Integer, Void, Void> {
 
-        IntentFilter iFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         ArrayList<File> images = new ArrayList<>();
         int imageCounter = 0;
 
@@ -145,11 +146,8 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Integer... integers) {
             while (!asyncTask.isCancelled()) {
                 publishProgress();
-                Intent batteryIntent = MainActivity.this.registerReceiver(null, iFilter);
-                int batteryStatus = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                boolean isCharging = batteryStatus == BatteryManager.BATTERY_STATUS_CHARGING;
                 try {
-                    Log.d(LOG_TAG, "waiting " + integers[0] + " sec, is charging:" + isCharging);
+                    Log.d(LOG_TAG, "waiting " + integers[0] + " sec");
                     TimeUnit.SECONDS.sleep(integers[0]);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

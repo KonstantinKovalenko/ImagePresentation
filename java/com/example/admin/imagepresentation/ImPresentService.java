@@ -2,7 +2,6 @@ package com.example.admin.imagepresentation;
 
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ImPresentService extends Service {
 
-    boolean serviceAutoload;
-    boolean programAutoload;
+    boolean serviceAutorun;
+    boolean programAutorun;
     boolean programStartWhenChanging;
     NotificationManager notificationManager;
     MyNotification notification;
@@ -41,11 +40,11 @@ public class ImPresentService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "onStartCommand() imPresentService");
-        serviceAutoload = intent.getBooleanExtra("serviceAutorun", false);
-        programAutoload = intent.getBooleanExtra("programAutoload", false);
+        serviceAutorun = intent.getBooleanExtra("serviceAutorun", false);
+        programAutorun = intent.getBooleanExtra("programAutorun", false);
         programStartWhenChanging = intent.getBooleanExtra("programStartWhenChanging", false);
-        Log.d(LOG_TAG, "Service Autoload: " + serviceAutoload + ", " +
-                "Program Autoload: " + programAutoload + ", " +
+        Log.d(LOG_TAG, "Service Autorun: " + serviceAutorun + ", " +
+                "Program Autorun: " + programAutorun + ", " +
                 "Start program when charging: " + programStartWhenChanging);
         checkForCharging();
         return START_NOT_STICKY;
@@ -82,6 +81,7 @@ public class ImPresentService extends Service {
         });
         t.start();
     }
+
 
     @Override
     public void onDestroy() {

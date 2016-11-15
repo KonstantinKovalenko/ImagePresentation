@@ -11,8 +11,8 @@ import android.preference.PreferenceScreen;
 public class PrefActivity extends PreferenceActivity {
 
     CheckBoxPreference chbPrefService;
-    CheckBoxPreference chbPrefServiceAutoload;
-    CheckBoxPreference chbPrefProgramAutoload;
+    CheckBoxPreference chbPrefServiceAutorun;
+    CheckBoxPreference chbPrefProgramAutorun;
     CheckBoxPreference chbPrefStartWhenCharging;
     ListPreference listPref;
 
@@ -31,25 +31,25 @@ public class PrefActivity extends PreferenceActivity {
         chbPrefService.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                chbPrefServiceAutoload.setEnabled(chbPrefService.isChecked());
-                chbPrefProgramAutoload.setEnabled(chbPrefService.isChecked());
+                chbPrefServiceAutorun.setEnabled(chbPrefService.isChecked());
+                chbPrefProgramAutorun.setEnabled(chbPrefService.isChecked());
                 chbPrefStartWhenCharging.setEnabled(chbPrefService.isChecked());
                 return false;
             }
         });
         rootScreen.addPreference(chbPrefService);
 
-        chbPrefServiceAutoload = new CheckBoxPreference(this);
-        chbPrefServiceAutoload.setTitle("Запуск сервиса при запуске устройства");
-        chbPrefServiceAutoload.setEnabled(chbPrefService.isChecked());
-        chbPrefServiceAutoload.setKey("chbPref_serviceAutoload");
-        rootScreen.addPreference(chbPrefServiceAutoload);
+        chbPrefServiceAutorun = new CheckBoxPreference(this);
+        chbPrefServiceAutorun.setTitle("Запуск сервиса при запуске устройства");
+        chbPrefServiceAutorun.setEnabled(chbPrefService.isChecked());
+        chbPrefServiceAutorun.setKey("chbPref_serviceAutorun");
+        rootScreen.addPreference(chbPrefServiceAutorun);
 
-        chbPrefProgramAutoload = new CheckBoxPreference(this);
-        chbPrefProgramAutoload.setTitle("Запуск программы при запуске устройства");
-        chbPrefProgramAutoload.setEnabled(chbPrefService.isChecked());
-        chbPrefProgramAutoload.setKey("chbPref_programAutoload");
-        rootScreen.addPreference(chbPrefProgramAutoload);
+        chbPrefProgramAutorun = new CheckBoxPreference(this);
+        chbPrefProgramAutorun.setTitle("Запуск программы при запуске устройства");
+        chbPrefProgramAutorun.setEnabled(chbPrefService.isChecked());
+        chbPrefProgramAutorun.setKey("chbPref_programAutorun");
+        rootScreen.addPreference(chbPrefProgramAutorun);
 
         chbPrefStartWhenCharging = new CheckBoxPreference(this);
         chbPrefStartWhenCharging.setTitle("Показывать при зарядке");

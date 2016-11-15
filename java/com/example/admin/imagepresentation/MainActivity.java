@@ -107,26 +107,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        boolean serviceIsEnabled = sharedPreferences.getBoolean("chbPref_service", false);
-        if (serviceIsEnabled) {
-            boolean serviceAutorun = sharedPreferences.getBoolean("chbPref_serviceAutorun", false);
-            boolean programAutorun = sharedPreferences.getBoolean("chbPref_programAutorun", false);
-            boolean programStartWhenChanging = sharedPreferences.getBoolean("chbPref_startWhenCharging", false);
-            if (serviceAutorun || programAutorun || programStartWhenChanging) {
-                Intent intent = new Intent("android.service.example.impresentservice");
-                intent.putExtra("serviceAutorun", serviceAutorun);
-                intent.putExtra("programAutorun", programAutorun);
-                intent.putExtra("programStartWhenChanging", programStartWhenChanging);
-                startService(intent);
-            } else {
-                Log.d("myTag", "все галочки отключены - активити");
-            }
-        }
-        super.onDestroy();
-    }
-
     private class ATask extends AsyncTask<Integer, Void, Void> {
 
         ArrayList<File> images = new ArrayList<>();
@@ -139,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     images.add(f);
                 }
             }
-            Log.d("1", "onPreExecute()");
+            Log.d(LOG_TAG, "onPreExecute()");
         }
 
         @Override

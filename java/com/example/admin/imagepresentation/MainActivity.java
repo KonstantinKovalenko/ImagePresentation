@@ -1,24 +1,16 @@
 package com.example.admin.imagepresentation;
 
-import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.os.Environment;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -31,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final int MENU_ITEM_START = 0;
     private final int MENU_ITEM_OPTIONS = 1;
-
-    private final String LOG_TAG = "myTag";
 
     ATask asyncTask;
     ImageView main_iView;
@@ -81,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         stopPresentation();
+        super.onPause();
     }
 
     @Override
@@ -119,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                     images.add(f);
                 }
             }
-            Log.d(LOG_TAG, "onPreExecute()");
         }
 
         @Override
@@ -127,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             while (!asyncTask.isCancelled()) {
                 publishProgress();
                 try {
-                    Log.d(LOG_TAG, "waiting " + integers[0] + " sec");
                     TimeUnit.SECONDS.sleep(integers[0]);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -144,18 +132,6 @@ public class MainActivity extends AppCompatActivity {
             String filePath = images.get(imageCounter++).getAbsolutePath();
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
             main_iView.setImageBitmap(bitmap);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Log.d(LOG_TAG, "onPostExecute()");
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            Log.d(LOG_TAG, "onCancelled()");
         }
     }
 }
